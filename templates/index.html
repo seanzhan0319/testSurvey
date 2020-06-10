@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .slider {
+            -webkit-appearance: none;
+            width: 30%;
+            height: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Scenario 1</h1>
+    <div class="container">
+        {% if message %}
+            <div class="message">{{ message | safe }}</div>
+        {% endif %}
+        <form action="/submit" method="POST">
+            <p>Enter ID below #Use cookie later#</p>
+            <input type="text" id="userid" name="userid"><br><br>
+            <p>Drag the slider and click confirm</p>
+            <input type="range" min="1" max="100" value="50" class="slider" name="myRange" id="myRange">
+            <p>Value: <span id="slider1"></span></p>
+            <input type="submit" value="Submit" class="btn">
+        </form>
+    </div>
+
+    <!-- showing value of slider -->
+    <script> 
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("slider1");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+        }
+    </script>
+
+</body>
+
+</html>
