@@ -13,9 +13,7 @@ if ENV == 'dev':
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = \
-        'postgres://onijnjombokzhh:b71661552e670fb920ae4126dc7f798a392 \
-        5675cb8fed5dd73a06df9e06d56d1@ec2-34-202-88-122.compute-1. \
-        amazonaws.com:5432/d5vubft84tih4p'
+        'postgres://onijnjombokzhh:b71661552e670fb920ae4126dc7f798a3925675cb8fed5dd73a06df9e06d56d1@ec2-34-202-88-122.compute-1.amazonaws.com:5432/d5vubft84tih4p'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # creating database object
