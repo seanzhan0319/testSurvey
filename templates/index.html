@@ -49,6 +49,12 @@
             <input type="submit" value="Submit" class="btn">
         </form>
     </div>
+    <span id="pytrics_retrieve">
+        <a href="javascript:pytrics_retrieve('#pytrics_retrieve');">Fetch Data</a>
+    </span>
+    <span id="pytrics_return">
+        <a href="/pytrics_return">Return Data</a>
+    </span>
 
     <!-- showing value of slider -->
     <script> 
@@ -60,6 +66,19 @@
             output.innerHTML = this.value;
         }
     </script>
+    <script>
+        function pytrics_retrieve(destElem) {
+            $(destElem).html('<img src="loading.gif">');
+            //document.getElementById(destElem).innerHTML = '<img src="loading.gif">';
+            $.post('/pytrics_retrieve').done(function(response) {
+                console.log(response);
+                $(destElem).html('<a href="javascript:pytrics_retrieve(&#39;#pytrics_retrieve&#39;);">Fetch Data</a>')
+            }).fail(function() {
+                $(destElem).text("{{ ('Error: Could not contact server.') }}");
+            });
+        }
+    </script>
+    
 
 </body>
 

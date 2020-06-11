@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from pytrics_get import pytrics_get
 
 app = Flask(__name__)
 
@@ -58,6 +59,18 @@ def submit():
             return render_template('thankyou.html')
         return render_template('index.html',
                                message='You have already submitted')
+
+
+@app.route('/pytrics_retrieve', methods=['POST'])
+def pytrics_retrieve():
+    return pytrics_get()
+
+@app.route('/pytrics_return')
+def pytrics_return():
+    try:
+        return send_file('SV_eQl4Bl9zA0b9rHD_responses.zip', attachment_filename='data.zip')
+    except Exception as e:
+        return str(e)
 
 
 if __name__ == '__main__':
