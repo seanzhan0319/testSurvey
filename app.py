@@ -9,7 +9,7 @@ if ENV == 'dev':
     app.debug = True
     # dev database
     app.config['SQLALCHEMY_DATABASE_URI'] = \
-        'postgresql://postgres:zhanxiao0319@localhost/testSurvey'
+        'postgresql://postgres:123456@localhost/testSurvey'
 else:
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = \
