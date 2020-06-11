@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from flask_sqlalchemy import SQLAlchemy
 from pytrics_get import pytrics_get
 
