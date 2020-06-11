@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, send_file
 from flask_sqlalchemy import SQLAlchemy
 from pytrics_get import pytrics_get
 
-app = Flask(__name__, static_url_path = "/app", static_folder = "app")
+app = Flask(__name__, static_url_path = "/", static_folder = "")
 
 ENV = 'prod'
 
