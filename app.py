@@ -65,6 +65,7 @@ def submit():
 def pytrics_retrieve():
     return pytrics_get()
 
+
 @app.route('/pytrics_return')
 def pytrics_return():
     try:
