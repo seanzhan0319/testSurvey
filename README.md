@@ -25,14 +25,19 @@ select correct virtual env interpreter
 write code 
 
 click into pgAdmin 4
+
 under databases, create a new database named testSurvey
+
 go into testSurvey - schemas - tables, no tables at this point
 
 when typing db.Column, error "SQLAlchemy doesn't have member .Column"
+
 in vscode, select linter, switched from pylint to flake8. error resolved. 
 
 Need to create feedback table (currently we're in dev, database will be local)
+
 Go into python script in terminal
+
 type:
 ```
 from app import db
@@ -41,14 +46,21 @@ db.create_all() # creates feedback table
 then exit
 
 run server again
+
 On pgadmin4, there should be a feedback table under Tables 
+
 go into flask web app, put in an id and drag slider
+
 click submit
+
 Go back to pgadmin4 and refresh
+
 right click on feedback - view/edit data - all rows
+
 now you can see data
 
 if you put in the same ID, the slider value won't be added to the database
+
 if no id is entered into user ID field, the app will ask to enter ID
 
 
@@ -56,12 +68,15 @@ if no id is entered into user ID field, the app will ask to enter ID
 
 
 To deploy: 
+
 istall heroku cli by downloading istaller from https://devcenter.heroku.com/articles/heroku-cli. 
+
 Or with mac:
 ```
 brew tap heroku/brew && brew install heroku
 ```
 make .gitignore file in vscode
+
 in vscode terminal, type:
 ```
 git init
@@ -103,11 +118,17 @@ heroku pg:backups:download (this is download a dump file)
 pg_restore --verbose --clean --no-acl --no-owner -h localhost -U myuser -d mydb latest.dump 
 ```
 You need to change myuser to your actual user on pgAdmi (can be found on server interface).
+
 You need to change mydb to the name of your database. 
+
 In my case, myuser = postgres, mydb = testSurvey
+
 NOTE: If there are multiple dumps, latest.dump needs to be changed to the correct name
+
 open pgAdmin4, look at testSurvey - Schemas - tables - feedback 
+
 in upper right corner, click download
+
 data will be downloaded as a csv file. 
 
 NOTE: We can use some sort of api and build another app that presents data to researchers.
