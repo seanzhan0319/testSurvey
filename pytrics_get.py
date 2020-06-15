@@ -1,6 +1,6 @@
 import os
 from pytrics.tools import Tools
-from pytrics_rework.pytrics_rework.operations.download import get_survey_json
+from app.pytrics_rework.pytrics_rework.operations.download import get_survey_json
 from pytrics.common.constants import (
     ENV_VAR_ABSOLUTE_PATH_TO_DATA_DIR,
 )
