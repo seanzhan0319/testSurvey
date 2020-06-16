@@ -76,9 +76,9 @@ def pytrics_return():
 @app.route('/pytrics_json_data', methods=['POST'])
 def pytrics_json_data():
     try:
-        return pytrics_data
+        return pytrics_data()
     except Exception as e:
-        return e
+        return str(e)
 
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@
         </form>
     </div>
     <span id="pytrics_data">
-        <a href="javascript:pytrics_data('#pytrics_data', '#data_content');">Get JSON data</a>
+        <a href="javascript:pytrics_data_json('#pytrics_data', '#data_content');">Get JSON data</a>
     </span>
 
     <!-- showing value of slider -->
@@ -65,7 +65,7 @@
         }
     </script>
     <script>
-        function pytrics_data(destElem, writeElem) {
+        function pytrics_data_json(destElem, writeElem) {
             $(destElem).html('<img src="loading.gif">');
             $.post('/pytrics_json_data').done(function(response) {
                 console.log(response);
