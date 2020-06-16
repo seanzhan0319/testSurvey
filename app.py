@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_file
 from flask_sqlalchemy import SQLAlchemy
-from pytrics_get import pytrics_get
+from pytrics_get import pytrics_get, pytrics_data
 
 app = Flask(__name__, static_url_path = "/", static_folder = "")
 
@@ -72,6 +72,13 @@ def pytrics_return():
         return send_file('SV_eQl4Bl9zA0b9rHD_responses.zip', attachment_filename='data.zip')
     except Exception as e:
         return str(e)
+
+@app.route('/pytrics_json_data', methods=['POST'])
+def pytrics_json_data():
+    try:
+        return pytrics_data
+    except Exception as e:
+        return e
 
 
 if __name__ == '__main__':
