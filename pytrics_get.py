@@ -55,6 +55,8 @@ def pytrics_data():
         print(e)
     finally:
         return response_file_json """
+    
+    return response_file_json
 
 def save_responses_to_file(api, survey_id, abs_path_to_data_dir, progress_id=None, retries=0):
     # file_path_and_name = _get_response_file_path(survey_id, abs_path_to_data_dir)
