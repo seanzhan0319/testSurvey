@@ -32,11 +32,15 @@
             background: #4CAF50;
             cursor: pointer;
         }
+        hr.rounded {
+            border-top: 8px solid #bbb;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Scenario 1</h1>
+    <h1>For Survey</h1>
     <div class="container">
         {% if message %}
             <div class="message">{{ message | safe }}</div>
@@ -50,6 +54,8 @@
             <input type="submit" value="Submit" class="btn">
         </form>
     </div>
+    <hr class="rounded">
+    <h1>For Research</h1>
     <span id="pytrics_data">
         <a href="javascript:pytrics_data_json('#pytrics_data', '#data_content');">Get JSON data</a>
     </span>

@@ -36,6 +36,17 @@ class Feedback(db.Model):
         self.sliderVal = sliderVal
 
 
+class DataJoin(db.Model):
+    __tablename__ = 'datajoin'
+    id = db.Column(db.Integer, primary_key=True)
+    userID = db.Column(db.String(20), unique=True)
+    q3_response = db.Column(db.Integer)
+
+    def __init__(self, userID, q3_response):
+        self.userID = userID
+        self.q3_response = q3_response
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -79,6 +90,11 @@ def pytrics_json_data():
         return pytrics_data()
     except Exception as e:
         return str(e)
+
+""" @app.route('/pytrics_flask_data_join', methods=['POST'])
+def pytrics_flask_data_join():
+    try:
+        json_set = pytrics_data() """
 
 
 if __name__ == '__main__':
