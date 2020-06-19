@@ -120,7 +120,7 @@ def pytrics_integrate():
         working_dict = {}
 
         working_dict['userId'] = userId
-        working_dict['flaskAnswer'] = Feedback.query.filter_by(userID=userId).first()
+        working_dict['flaskAnswer'] = Feedback.query.filter_by(userID=userId).first().userID
         working_dict['qualAnswer'] = response["values"]["QID3"]
 
         out_data.append(working_dict)
