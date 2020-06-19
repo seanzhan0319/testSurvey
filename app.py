@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, send_file
 from flask_sqlalchemy import SQLAlchemy
 from pytrics_get import pytrics_get, pytrics_data
+import json
 
 app = Flask(__name__, static_url_path = "/", static_folder = "")
 
@@ -91,10 +92,40 @@ def pytrics_json_data():
     except Exception as e:
         return str(e)
 
-""" @app.route('/pytrics_flask_data_join', methods=['POST'])
+@app.route('/pytrics_flask_data_join', methods=['POST'])
 def pytrics_flask_data_join():
     try:
-        json_set = pytrics_data() """
+        json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
+    except Exception as e:
+        json_set = str(e)
+    # json_set["responses"]["values"]["QID2_TEXT"]
+    # json.dumps(json_set["responses"])
+
+    output_list = []
+
+    for response in json_set["responses"]:
+        output_list.append(response["values"]["QID2_TEXT"])
+
+    return json.dumps(json_set["responses"])
+
+@app.route('/pytrics_integrate')
+def pytrics_integrate():
+    json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
+    out_data = []
+
+    for response in json_set["responses"]:
+        userId = response["values"]["QID2_TEXT"]
+        exists = db.session.query(db.exists().where(Feedback.userID == userId)).scalar()
+
+        working_dict = {}
+
+        working_dict['userId'] = userId
+        working_dict['flaskAnswer'] = db.session.query(Feedback.sliderval).filter_by(userID = userId)
+        working_dict['qualAnswer'] = response["values"]["QID3"]
+
+        out_data.append(working_dict)
+
+    return render_template('index.html', data=out_data)
 
 
 if __name__ == '__main__':

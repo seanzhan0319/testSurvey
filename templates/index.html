@@ -56,9 +56,30 @@
     </div>
     <hr class="rounded">
     <h1>For Research</h1>
-    <span id="pytrics_data">
-        <a href="javascript:pytrics_data_json('#pytrics_data', '#data_content');">Get JSON data</a>
+    <span id="pytrics_integrate">
+        <a href="/pytrics_integrate">Get JSON data (integrate data)</a>
     </span>
+    <br>
+    {% if data %}
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Flask Answer</th>
+                    <th>Qualtrics Q3 Answer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td>{{ row['userId'] }}</td>
+                        <td>{{ row['flaskAnswer'] }}</td>
+                        <td>{{ row['qualAnswer'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 
     <!-- showing value of slider -->
     <script> 

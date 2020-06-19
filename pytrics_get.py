@@ -36,7 +36,7 @@ def pytrics_get():
     finally:
         return("Complete")
 
-def pytrics_data():
+def pytrics_data(survey_id='SV_eQl4Bl9zA0b9rHD'):
     response_file_json = None
     abs_path_to_data_dir = os.environ.get(ENV_VAR_ABSOLUTE_PATH_TO_DATA_DIR, '')
     
@@ -44,7 +44,7 @@ def pytrics_data():
     api = QualtricsAPIClient(base_url, auth_token)
 
     try:
-        response_file_json = save_responses_to_file(api, 'SV_eQl4Bl9zA0b9rHD', abs_path_to_data_dir)
+        response_file_json = save_responses_to_file(api, survey_id, abs_path_to_data_dir)
     except QualtricsDataSerialisationException as qex:
         raise qex
 
