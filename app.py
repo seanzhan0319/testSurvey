@@ -137,7 +137,11 @@ def generate_large_csv():
     def generate():
         yield 'userID,flaskAnswer,QualtricsAnswer' + '\n'
         for response in json_set["responses"]:
-            yield str(response["values"]["QID2_TEXT"]) + ',' + str(0) + ',' + str(response["values"]["QID3"]) + '\n'
+            userId = response["values"]["QID2_TEXT"]
+            exists = db.session.query(db.exists().where(Feedback.userID == userId)).scalar()
+            
+            if exists:
+                yield str(userId) + ',' + str(0) + ',' + str(response["values"]["QID3"]) + '\n'
     return Response(generate(), mimetype='text/csv')
 
 
