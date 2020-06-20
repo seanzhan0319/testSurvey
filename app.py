@@ -117,13 +117,15 @@ def pytrics_integrate():
         userId = response["values"]["QID2_TEXT"]
         exists = db.session.query(db.exists().where(Feedback.userID == userId)).scalar()
 
-        working_dict = {}
+        if exists:
 
-        working_dict['userId'] = userId
-        working_dict['flaskAnswer'] = Feedback.query.filter_by(userID=userId).first().sliderVal
-        working_dict['qualAnswer'] = response["values"]["QID3"]
+            working_dict = {}
 
-        out_data.append(working_dict)
+            working_dict['userId'] = userId
+            working_dict['flaskAnswer'] = Feedback.query.filter_by(userID=userId).first().sliderVal
+            working_dict['qualAnswer'] = response["values"]["QID3"]
+
+            out_data.append(working_dict)
 
     return render_template('index.html', data=out_data)
 
@@ -133,10 +135,8 @@ def generate_large_csv():
     json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
 
     def generate():
-        # for row in iter_all_rows():
         yield 'userID,flaskAnswer,QualtricsAnswer' + '\n'
         for response in json_set["responses"]:
-            # yield ','.join(row) + '\n'
             yield str(response["values"]["QID2_TEXT"]) + ',' + str(0) + ',' + str(response["values"]["QID3"]) + '\n'
     return Response(generate(), mimetype='text/csv')
 
