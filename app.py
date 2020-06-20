@@ -141,7 +141,7 @@ def generate_large_csv():
             exists = db.session.query(db.exists().where(Feedback.userID == userId)).scalar()
             
             if exists:
-                yield str(userId) + ',' + str(0) + ',' + str(response["values"]["QID3"]) + '\n'
+                yield str(userId) + ',' + str(Feedback.query.filter_by(userID=userId).first().sliderVal) + ',' + str(response["values"]["QID3"]) + '\n'
     return Response(generate(), mimetype='text/csv')
 
 
