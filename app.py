@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, Response
 from flask_sqlalchemy import SQLAlchemy
 from pytrics_get import pytrics_get, pytrics_data
 import json
@@ -126,6 +126,19 @@ def pytrics_integrate():
         out_data.append(working_dict)
 
     return render_template('index.html', data=out_data)
+
+
+@app.route('/output.csv')
+def generate_large_csv():
+    json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
+
+    def generate():
+        # for row in iter_all_rows():
+        yield 'userID,flaskAnswer,QualtricsAnswer' + '\n'
+        for response in json_set["responses"]:
+            # yield ','.join(row) + '\n'
+            yield str(response["values"]["QID2_TEXT"]) + ',' + str(0) + ',' + str(response["values"]["QID3"]) + '\n'
+    return Response(generate(), mimetype='text/csv')
 
 
 if __name__ == '__main__':
