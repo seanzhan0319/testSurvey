@@ -45,4 +45,6 @@ def api_all():
         data = SurveyEntry(name, json.dumps(jsonData))
         db.session.add(data)
         db.session.commit()
-        return jsonify(str("Successfully stored  " + str(data)))
+        response = jsonify(str("Successfully stored  " + str(data)))
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
