@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request, send_file, Response
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import json
 
 app = Flask(__name__, static_url_path = "/", static_folder = "")
@@ -21,6 +22,8 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # creating database object
 db = SQLAlchemy(app)
+
+CORS(app)
 
 class SurveyEntry(db.Model):
     __tablename__ = "surveys"
