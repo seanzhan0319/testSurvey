@@ -37,7 +37,7 @@ class SurveyEntry(db.Model):
         self.value = value
 
 @app.route('/api/v1/dataPost', methods=['POST'])
-@cross_origin(origin='localhost',headers=['Content- Type','Authorization'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization','Access-Control-Allow-Origin'])
 def api_all():
     if request.method=='POST':
         posted_data = request.get_json()
