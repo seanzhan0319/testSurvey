@@ -4,6 +4,8 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__, static_url_path = "/", static_folder = "")
+cors = CORS(app, resources={r"/api/v1/dataPost": {"origins": "*"}})
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 ENV = 'prod'
@@ -24,8 +26,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # creating database object
 db = SQLAlchemy(app)
 
-CORS(app, resources={r"/api/v1/dataPost": {"origins": "*"}})
-
 class SurveyEntry(db.Model):
     __tablename__ = "surveys"
     id = db.Column(db.Integer, primary_key=True)
@@ -37,7 +37,7 @@ class SurveyEntry(db.Model):
         self.value = value
 
 @app.route('/api/v1/dataPost', methods=['POST'])
-@cross_origin(origin='*',headers=['Content- Type','Authorization','Access-Control-Allow-Origin'])
+@cross_origin()
 def api_all():
     if request.method=='POST':
         posted_data = request.get_json()
