@@ -39,7 +39,9 @@ class SurveyEntry(db.Model):
 @app.route('/api/v1/GETtest')
 @cross_origin(origin='*',headers=['Content-Type','Authorization', 'Access-Control-Allow-Origin'])
 def GETTest():
-    return jsonify(str("Success!"))
+    response = jsonify(str("Success!"))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/api/v1/dataPost', methods=['POST'])
 @cross_origin()
