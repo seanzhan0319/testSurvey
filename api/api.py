@@ -36,6 +36,11 @@ class SurveyEntry(db.Model):
         self.name = name
         self.value = value
 
+@app.route('/api/v1/GETtest')
+@cross_origin()
+def GETTest():
+    return jsonify(str("Success!"))
+
 @app.route('/api/v1/dataPost', methods=['POST'])
 @cross_origin()
 def api_all():
