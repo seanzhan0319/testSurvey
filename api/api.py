@@ -4,7 +4,8 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__, static_url_path = "/", static_folder = "")
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+# cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -37,14 +38,14 @@ class SurveyEntry(db.Model):
         self.value = value
 
 @app.route('/api/v1/GETtest')
-@cross_origin(origin='*',headers=['Content-Type','Authorization', 'Access-Control-Allow-Origin'])
+# @cross_origin(origin='*',headers=['Content-Type','Authorization', 'Access-Control-Allow-Origin'])
 def GETTest():
     response = jsonify(str("Success!"))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/api/v1/dataPost', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def api_all():
     if request.method=='POST':
         posted_data = request.get_json()
