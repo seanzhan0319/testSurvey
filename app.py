@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file, Response
 from flask_sqlalchemy import SQLAlchemy
 from pytrics_get import pytrics_get, pytrics_data
 import json
+import requests
 
 app = Flask(__name__, static_url_path = "/", static_folder = "")
 
@@ -50,7 +51,26 @@ class DataJoin(db.Model):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    Feedback_URL = 'https://test-api-615.herokuapp.com/api/feedback/'
+    collection_name = 'surveys'
+    API_URL = Feedback_URL + collection_name
+    Headers = {'Content-Type': 'application/json'}
+    dataGOT = requests.get(API_URL)
+    return render_template('index.html', data=dataGOT.json())
+
+
+@app.route('/survey', methods=['POST'])
+def survey_create():
+    id = request.form['id']
+    Feedback_URL = 'https://test-api-615.herokuapp.com/api/feedback/'
+    collection_name = 'surveys'
+    API_URL = Feedback_URL + collection_name
+    Headers = {'Content-Type': 'application/json'}
+    dataGOT = requests.get(API_URL).json()
+    for got in dataGOT:
+        if got['_id'] == id:
+            data = got
+    return render_template('survey.html', data=data)
 
 
 @app.route('/submit', methods=['POST'])
