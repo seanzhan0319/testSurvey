@@ -68,6 +68,17 @@
         <a href="/pytrics_integrate">View flask and Qualtrics data as Table</a>
     </span>
     <br>
+    <form action="/survey" method="post">
+        <select name="id">
+            {% for jData in dataGOT %}
+                {% if 'q0' in jData %}
+                    <option value={{jData['_id']}}>{{jData['name']}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <input type="submit" value="submit">
+    </form>
+    <br>
     {% if data %}
         <table>
             <thead>

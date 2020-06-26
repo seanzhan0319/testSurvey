@@ -56,7 +56,7 @@ def index():
     API_URL = Feedback_URL + collection_name
     Headers = {'Content-Type': 'application/json'}
     dataGOT = requests.get(API_URL)
-    return render_template('index.html', data=dataGOT.json())
+    return render_template('index.html', dataGOT=dataGOT.json())
 
 
 @app.route('/survey', methods=['POST'])
