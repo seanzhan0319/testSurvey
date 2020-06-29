@@ -45,11 +45,14 @@
         <h1>{{data["name"]}}</h1>
         <form>
             {% for i in range(0, data["count"]) %}
-                {% set question = data["q" ~ i] %}
-                {% if question["Type"] == "slider" %}
-                    <p>{{question["Question"]}}</p>
-                    <input type="range" min={{question["lowRange"]}} max={{question["highRange"]}} value={{((question["lowRange"]|int) + (question["highRange"]|int)/2)|string}} class="slider" name={{"myRange" ~ i}} id={{"myRange" ~ i}}>
-                    <p>Value: <span id={{"slider" ~ i}}></span></p>
+                {% set key = "q" ~ i %}
+                {% if key in data %}
+                    {% set question = data[key] %}
+                    {% if question["Type"] == "slider" %}
+                        <p>{{question["Question"]}}</p>
+                        <input type="range" min={{question["lowRange"]}} max={{question["highRange"]}} value={{((question["lowRange"]|int) + (question["highRange"]|int)/2)|string}} class="slider" name={{"myRange" ~ i}} id={{"myRange" ~ i}}>
+                        <p>Value: <span id={{"slider" ~ i}}></span></p>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </form>
