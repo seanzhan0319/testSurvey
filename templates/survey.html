@@ -71,15 +71,18 @@
         </script> -->
         <script>
             {% for i in range(0, data["count"]) %}
-                var {{"slider" ~ i}} = document.getElementById("{{'myRange' ~ i}}");
-                var {{"output" ~ i}} = document.getElementById("{{'slider' ~ i}}");
-                {{"output" ~ i}}.innerHTML = {{"slider" ~ i}}.value;
-                console.log({{"slider" ~ i}}.value);
-        
-                {{"slider" ~ i}}.oninput = function () {
+                {% set key = "q" ~ i %}
+                {% if key in data %}
+                    var {{"slider" ~ i}} = document.getElementById("{{'myRange' ~ i}}");
+                    var {{"output" ~ i}} = document.getElementById("{{'slider' ~ i}}");
                     {{"output" ~ i}}.innerHTML = {{"slider" ~ i}}.value;
                     console.log({{"slider" ~ i}}.value);
-                }
+            
+                    {{"slider" ~ i}}.oninput = function () {
+                        {{"output" ~ i}}.innerHTML = {{"slider" ~ i}}.value;
+                        console.log({{"slider" ~ i}}.value);
+                    }
+                {% endif %}
             {% endfor %}
         </script>
     </body>
