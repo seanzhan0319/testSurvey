@@ -57,7 +57,7 @@ def index():
     key_value = 'studyName-study1'
     API_URL = Feedback_URL + database_name + '/' + collection_name + '/' + key_value
     Headers = {'Content-Type': 'application/json'}
-    dataGOT = requests.get(API_URL).experiments
+    dataGOT = requests.get(API_URL)['experiments']
     return render_template('index.html', dataGOT=dataGOT.json())
 
 
@@ -70,7 +70,7 @@ def survey_create():
     key_value = 'studyName-study1'
     API_URL = Feedback_URL + database_name + '/' + collection_name + '/' + key_value
     Headers = {'Content-Type': 'application/json'}
-    dataGOT = requests.get(API_URL).experiments.json()
+    dataGOT = requests.get(API_URL)['experiments'].json()
     for got in dataGOT:
         if got['exptName'] == id:
             data = got
