@@ -42,7 +42,7 @@
     </head>
     <body>
         <h1>Hello! Here is your survey!</h1>
-        <h1>{{data["name"]}}</h1>
+        <h1>{{data["exptName"]}}</h1>
         <form>
             {% for i in range(0, data["count"]) %}
                 {% set key = "q" ~ i %}
