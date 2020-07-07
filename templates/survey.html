@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>Survey Render</title>
+        <style>
+            .slider {
+                -webkit-appearance: none;
+                width: 30%;
+                height: 5px;
+                background: #d3d3d3;
+                outline: none;
+                opacity: 0.7;
+                -webkit-transition: .2s;
+                transition: opacity .2s;
+            }
+            .slider:hover {
+                opacity: 1;
+            }
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 10px;
+                height: 10px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
+            .slider::-moz-range-thumb {
+                width: 10px;
+                height: 10px;
+                background: #4CAF50;
+                cursor: pointer;
+            }
+            hr.rounded {
+                border-top: 8px solid #bbb;
+                border-radius: 5px;
+            }
+            table, th, td {
+                border: 1px solid black;
+                text-align: center; 
+                /*vertical-align: middle;*/
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello! Here is your survey!</h1>
+        <h1>{{data["name"]}}</h1>
+        <form>
+            {% for i in range(0, data["count"]) %}
+                {% set key = "q" ~ i %}
+                {% if key in data %}
+                    {% set question = data[key] %}
+                    {% if question["Type"] == "slider" %}
+                        <p>{{question["Question"]}}</p>
+                        <input type="range" min={{question["lowRange"]}} max={{question["highRange"]}} value={{((question["lowRange"]|int) + (question["highRange"]|int)/2)|string}} class="slider" name={{"myRange" ~ i}} id={{"myRange" ~ i}}>
+                        <p>Value: <span id={{"slider" ~ i}}></span></p>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </form>
+        <!-- <script>
+            for (i = 0; i < {{data["count"]}}; i++) {
+                var slider = document.getElementById("myRange" + i);
+                var output = document.getElementById("slider" + i);
+                output.innerHTML = slider.value;
+                console.log(slider.value);
+        
+                slider.oninput = function () {
+                    output.innerHTML = slider.value;
+                    console.log(slider.value);
+                }
+            }
+        </script> -->
+        <script>
+            {% for i in range(0, data["count"]) %}
+                {% set key = "q" ~ i %}
+                {% if key in data %}
+                    var {{"slider" ~ i}} = document.getElementById("{{'myRange' ~ i}}");
+                    var {{"output" ~ i}} = document.getElementById("{{'slider' ~ i}}");
+                    {{"output" ~ i}}.innerHTML = {{"slider" ~ i}}.value;
+                    console.log({{"slider" ~ i}}.value);
+            
+                    {{"slider" ~ i}}.oninput = function () {
+                        {{"output" ~ i}}.innerHTML = {{"slider" ~ i}}.value;
+                        console.log({{"slider" ~ i}}.value);
+                    }
+                {% endif %}
+            {% endfor %}
+        </script>
+    </body>
+</html>

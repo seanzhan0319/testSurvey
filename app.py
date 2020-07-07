@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file, Response
 from flask_sqlalchemy import SQLAlchemy
+from pytrics_get import pytrics_get, pytrics_data
+import json
+import requests
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path = "/", static_folder = "")
 
 ENV = 'prod'
 
@@ -35,9 +38,39 @@ class Feedback(db.Model):
         self.sliderVal = sliderVal
 
 
+class DataJoin(db.Model):
+    __tablename__ = 'datajoin'
+    id = db.Column(db.Integer, primary_key=True)
+    userID = db.Column(db.String(20), unique=True)
+    q3_response = db.Column(db.Integer)
+
+    def __init__(self, userID, q3_response):
+        self.userID = userID
+        self.q3_response = q3_response
+
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    Feedback_URL = 'https://test-api-615.herokuapp.com/api/feedback/'
+    collection_name = 'surveys'
+    API_URL = Feedback_URL + collection_name
+    Headers = {'Content-Type': 'application/json'}
+    dataGOT = requests.get(API_URL)
+    return render_template('index.html', dataGOT=dataGOT.json())
+
+
+@app.route('/survey', methods=['POST'])
+def survey_create():
+    id = request.form['id']
+    Feedback_URL = 'https://test-api-615.herokuapp.com/api/feedback/'
+    collection_name = 'surveys'
+    API_URL = Feedback_URL + collection_name
+    Headers = {'Content-Type': 'application/json'}
+    dataGOT = requests.get(API_URL).json()
+    for got in dataGOT:
+        if got['_id'] == id:
+            data = got
+    return render_template('survey.html', data=data)
 
 
 @app.route('/submit', methods=['POST'])
@@ -58,6 +91,78 @@ def submit():
             return render_template('thankyou.html')
         return render_template('index.html',
                                message='You have already submitted')
+
+
+@app.route('/pytrics_retrieve', methods=['POST'])
+def pytrics_retrieve():
+    return pytrics_get()
+
+
+@app.route('/pytrics_return')
+def pytrics_return():
+    try:
+        return send_file('SV_eQl4Bl9zA0b9rHD_responses.zip', attachment_filename='data.zip')
+    except Exception as e:
+        return str(e)
+
+@app.route('/pytrics_json_data', methods=['POST'])
+def pytrics_json_data():
+    try:
+        return pytrics_data()
+    except Exception as e:
+        return str(e)
+
+@app.route('/pytrics_flask_data_join', methods=['POST'])
+def pytrics_flask_data_join():
+    try:
+        json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
+    except Exception as e:
+        json_set = str(e)
+    # json_set["responses"]["values"]["QID2_TEXT"]
+    # json.dumps(json_set["responses"])
+
+    output_list = []
+
+    for response in json_set["responses"]:
+        output_list.append(response["values"]["QID2_TEXT"])
+
+    return json.dumps(json_set["responses"])
+
+@app.route('/pytrics_integrate')
+def pytrics_integrate():
+    json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
+    out_data = []
+
+    for response in json_set["responses"]:
+        userId = response["values"]["QID2_TEXT"]
+        exists = db.session.query(db.exists().where(Feedback.userID == userId)).scalar()
+
+        if exists:
+
+            working_dict = {}
+
+            working_dict['userId'] = userId
+            working_dict['flaskAnswer'] = Feedback.query.filter_by(userID=userId).first().sliderVal
+            working_dict['qualAnswer'] = response["values"]["QID3"]
+
+            out_data.append(working_dict)
+
+    return render_template('index.html', data=out_data)
+
+
+@app.route('/output.csv')
+def generate_large_csv():
+    json_set = pytrics_data('SV_9sEnmiY7pG27C7P')
+
+    def generate():
+        yield 'userID,flaskAnswer,QualtricsAnswer' + '\n'
+        for response in json_set["responses"]:
+            userId = response["values"]["QID2_TEXT"]
+            exists = db.session.query(db.exists().where(Feedback.userID == userId)).scalar()
+            
+            if exists:
+                yield str(userId) + ',' + str(Feedback.query.filter_by(userID=userId).first().sliderVal) + ',' + str(response["values"]["QID3"]) + '\n'
+    return Response(generate(), mimetype='text/csv')
 
 
 if __name__ == '__main__':
