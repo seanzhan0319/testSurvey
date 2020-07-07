@@ -52,8 +52,9 @@ class DataJoin(db.Model):
 @app.route('/')
 def index():
     Feedback_URL = 'https://test-api-615.herokuapp.com/api/feedback/'
+    database_name = 'demo1'
     collection_name = 'surveys'
-    API_URL = Feedback_URL + collection_name
+    API_URL = Feedback_URL + database_name + '/' + collection_name
     Headers = {'Content-Type': 'application/json'}
     dataGOT = requests.get(API_URL)
     return render_template('index.html', dataGOT=dataGOT.json())
@@ -63,8 +64,9 @@ def index():
 def survey_create():
     id = request.form['id']
     Feedback_URL = 'https://test-api-615.herokuapp.com/api/feedback/'
+    database_name = 'demo1'
     collection_name = 'surveys'
-    API_URL = Feedback_URL + collection_name
+    API_URL = Feedback_URL + database_name + '/' + collection_name
     Headers = {'Content-Type': 'application/json'}
     dataGOT = requests.get(API_URL).json()
     for got in dataGOT:
