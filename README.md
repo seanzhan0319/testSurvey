@@ -1,4 +1,12 @@
-# testSurvey
+# DEPRECATED REPO
+
+We are no longer using flask as our frontend. All frontend development has been switched to React since late June. 
+
+We no longer need pytrics to integrate with Qualtrics. Our API built with Node.js supports integration across Qualtrics and both researcher and participant apps.
+
+---
+
+### testSurvey
 Demo flask app for experiments
 
 log:
